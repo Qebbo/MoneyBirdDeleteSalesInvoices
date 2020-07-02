@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 
 namespace MoneyBirdDeleteSalesInvoices
 {
+    // this program deletes all draft invoices for a certain contact
     class Program
     {
 
         private static readonly HttpClient client = new HttpClient();
-        private static string baseurl = "https://moneybird.com/api/v2/270301429150778709";
+        private static string baseurl = "https://moneybird.com/api/v2/xxxxxx"; // replace xxxxxx with the ID of your administration
 
         public class SalesInvoice
         {
@@ -21,7 +22,8 @@ namespace MoneyBirdDeleteSalesInvoices
 
         static async Task Main(string[] args)
         {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "d1200bfaf8058a207fd4d9d0a3676929039d23243daf27d3959d7e6e5e25ebf4");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "yyy"); // replace yyyy with the token you created at https://moneybird.com/user/applications/new
+
             for (int i = 0; i < 50; i++)
             {
                 await GetSalesInvoices();
@@ -42,7 +44,7 @@ namespace MoneyBirdDeleteSalesInvoices
         private static async Task GetSalesInvoices()
         {
 
-            var streamTask = client.GetStreamAsync($"{baseurl}/sales_invoices.json?filter=state:draft,contact_id:270935613549578232");
+            var streamTask = client.GetStreamAsync($"{baseurl}/sales_invoices.json?filter=state:draft,contact_id:zzzzz"); // replace zzzz with the ID of the contact that you want to delete the draft invoices for
             var salesinvoices = await JsonSerializer.DeserializeAsync<List<SalesInvoice>>(await streamTask);
             foreach (var salesinvoice in salesinvoices)
             { 
